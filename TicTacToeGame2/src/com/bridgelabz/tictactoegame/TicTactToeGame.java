@@ -1,22 +1,11 @@
 package com.bridgelabz.tictactoegame;
 import java.util.*;
-/*
-* As a Player would like to
-start fresh by creating a tic
-tac toe board - Create a TicTacToeGame class - Create method for every use case
-and call from main
-- Create a board of char[] of size 10
-and assign empty space to each
-element
 
--
-0th index is ignored to make it
-
-UC 1 user friendly*/
 public class TicTactToeGame {
     public char[] board;
         public TicTactToeGame(){
             board= new char[10];//creating a board of size 10
+
             initializeBoard();
         }
     public void initializeBoard(){
@@ -52,9 +41,36 @@ public class TicTactToeGame {
                     board[1]== player && board[5]==player && board[9]==player ||
                     board[3]== player && board[5]==player && board[7]==player );
     }
-    public void play(){
+    //
+    public char performToss(){
+            Random random = new Random();
+            int tossResult = random.nextInt(2);
+            return (tossResult == 0) ? 'H':'T';
+    }
+    public void startGame(){
+            char tossResult;
+            char userChoice;
+            Scanner sc = new Scanner(System.in);
+        System.out.println("TOSS! Choose Heads or Tails: ");
+        userChoice=sc.next().charAt(0);
+        tossResult = performToss();
+        System.out.println("Toss Result: "+((tossResult =='H')? "Heads" : "Tails"));
+        char currentPlayer;
+
+        if(userChoice == tossResult){
+            System.out.println("You won the toss. Your chance first.");
+            currentPlayer='X';
+
+        }else{
+            System.out.println("You lost the toss. Computer's chance first.");
+            currentPlayer= '0';
+        }
+        play(currentPlayer);
+    }
+    public void play(char startingPlayer){
             Scanner sc= new Scanner(System.in);
-            char currentPlayer = 'X';
+            char currentPlayer = startingPlayer;
+
             while(true){
                 System.out.println("Player"+ currentPlayer+ " turn.");
                 System.out.println("Enter a position between 1-9: ");
@@ -77,6 +93,6 @@ public class TicTactToeGame {
     public static void main(String[] args) {
         System.out.println("Welcome to Tic tac Toe game.");
         TicTactToeGame game = new TicTactToeGame();
-        game.play();
+        game.startGame();
     }
 }
